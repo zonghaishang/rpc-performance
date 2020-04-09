@@ -5,6 +5,14 @@
  */
 package com.opensource.rpc.benchmark;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
@@ -85,7 +93,7 @@ public abstract class AbstractBenchmarkClient {
         List<ClientRunnable> clients = new ArrayList<ClientRunnable>();
 
         // benchmark start after thirty seconds,let java app warm up
-        long beginTime = System.nanoTime() / 1000L + 30 * 1000 * 1000L;
+        long beginTime = System.nanoTime() / 1000L + option.getWarmUp() * 1000 * 1000L;
         for (int i = 0; i < threads; i++) {
             clients.add(getClientRunnable(
                     new InvokeOption(option.getTargetInterface()
@@ -233,18 +241,72 @@ public abstract class AbstractBenchmarkClient {
         calendar.add(Calendar.SECOND, runtimeSeconds);
 
         StringBuilder startInfo = new StringBuilder(dateFormat.format(currentDate));
-        startInfo.append(" ready to start client benchmark,server is ");
+        startInfo.append(" ready to start client benchmark, server is ");
         startInfo.append(serverIP).append(":").append(serverPort);
-        startInfo.append(",concurrent is: ").append(threads);
-        startInfo.append(",connection is : ").append(clientNums);
-        startInfo.append(",timeout is:").append(timeout);
-        startInfo.append(" s,the benchmark will end at:").append(dateFormat.format(calendar.getTime()));
+        startInfo.append(" ,concurrent is: ").append(threads);
+        startInfo.append(" ,connection is : ").append(clientNums);
+        startInfo.append(" ,timeout is:").append(timeout);
+        startInfo.append(" s ,the benchmark will end at:").append(dateFormat.format(calendar.getTime()));
 
         System.out.println(startInfo.toString());
     }
 
     private ParsedOption parseArguments(String[] args) {
-        return new ParsedOption();
+        ParsedOption option = new ParsedOption();
+
+        Options options = new Options();
+        options.addOption(new Option("b", "target", true, "target benchmark runnable class"));
+        options.addOption(new Option("h", "host", true, "server host or address"));
+        options.addOption(new Option("p", "port", true, "server port"));
+        options.addOption(new Option("t", "timeout", true, "rpc request timeout(milliseconds)"));
+        options.addOption(new Option("d", "duration", true, "benchmark running duration(seconds)"));
+        options.addOption(new Option("c", "threads", true, "The number of concurrent"));
+        options.addOption(new Option("tc", "connections", true, "The number of tcp connection"));
+        options.addOption(new Option("w", "warm-up", true, "warm up duration(seconds)"));
+
+        HelpFormatter formatter = new HelpFormatter();
+
+        CommandLineParser parser = new DefaultParser();
+        try {
+            CommandLine cmd = parser.parse(options, args);
+
+            String host = cmd.getOptionValue("h");
+            String port = cmd.getOptionValue("p");
+            String duration = cmd.getOptionValue("d");
+            String target = cmd.getOptionValue("b");
+            if (host == null || port == null || duration == null) {
+                printUsage(options, formatter);
+            }
+
+            option.setHost(host);
+            option.setPort(Integer.parseInt(port));
+            option.setDuration(Integer.parseInt(duration));
+            option.setTargetInterface(target);
+
+            String timeout = cmd.getOptionValue("t");
+            String threads = cmd.getOptionValue("c");
+            String connections = cmd.getOptionValue("tc");
+            String warmUp = cmd.getOptionValue("w");
+            if (timeout == null) { option.setTimeout(1000); }
+            if (threads == null) { option.setThreads(1); }
+            if (connections == null) {option.setConnections(1);}
+
+            if (warmUp != null) {
+                option.setWarmUp(Integer.parseInt(warmUp));
+            }
+
+        } catch (ParseException e) {
+            System.err.println("Parsing failed. Reason: " + e.getMessage());
+            printUsage(options, formatter);
+        }
+
+        return option;
+    }
+
+    private void printUsage(Options options, HelpFormatter formatter) {
+        // print help usage:
+        formatter.printHelp("benchmark.sh", options);
+        System.exit(0);
     }
 
     public abstract ClientRunnable getClientRunnable(InvokeOption option)

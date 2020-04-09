@@ -114,8 +114,9 @@ public abstract class AbstractClientRunnable implements ClientRunnable {
                     errorResponseTimes[offset] = errorResponseTimes[offset] + consumeTime;
                 }
             } catch (Exception e) {
-                LOGGER.error("Failed to invoke", e);
+                LOGGER.error("failed to trigger doInvoke", e);
                 long currentTime = getCurrentTime();
+                // warm up ??
                 if (beginTime <= startTime) {
                     continue;
                 }

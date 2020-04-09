@@ -14,7 +14,7 @@
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>rpc.benchmark/lib</outputDirectory>
-            <useProjectArtifact>false</useProjectArtifact>
+            <useProjectArtifact>true</useProjectArtifact>
             <useProjectAttachments>true</useProjectAttachments>
             <excludes>
                 <exclude>*:sources</exclude>

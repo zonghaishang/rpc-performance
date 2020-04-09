@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-java -Xms512m -Xmx512m -Xmn128m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -Dwrite.statistics=true -Djava.ext.dirs="./lib" "com.opensource.rpc.benchmark.RpcBenchmarkClient"  > "benchmark.log" 2>&1 &

@@ -41,6 +41,8 @@ public class ParsedOption {
      */
     private int connections;
 
+    private int warmUp;
+
     /**
      *  save detail to benchmark.all.results file ?
      */
@@ -113,5 +115,13 @@ public class ParsedOption {
 
     public void setTargetInterface(String targetInterface) {
         this.targetInterface = targetInterface;
+    }
+
+    public int getWarmUp() {
+        return warmUp;
+    }
+
+    public void setWarmUp(int warmUp) {
+        this.warmUp = warmUp;
     }
 }
