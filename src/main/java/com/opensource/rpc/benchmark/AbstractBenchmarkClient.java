@@ -240,13 +240,14 @@ public abstract class AbstractBenchmarkClient {
         calendar.setTime(currentDate);
         calendar.add(Calendar.SECOND, runtimeSeconds);
 
-        StringBuilder startInfo = new StringBuilder(dateFormat.format(currentDate));
-        startInfo.append(" ready to start client benchmark, server is ");
-        startInfo.append(serverIP).append(":").append(serverPort);
-        startInfo.append(" ,concurrent is: ").append(threads);
-        startInfo.append(" ,connection is : ").append(clientNums);
-        startInfo.append(" ,timeout is:").append(timeout);
-        startInfo.append(" s ,the benchmark will end at:").append(dateFormat.format(calendar.getTime()));
+        StringBuilder startInfo = new StringBuilder();
+        startInfo.append("ready to start client benchmark: ").append("\n");
+        startInfo.append("server is: ").append(serverIP).append(":").append(serverPort).append("\n");
+        startInfo.append("concurrent is: ").append(threads).append("\n");
+        startInfo.append("connection is: ").append(clientNums).append("\n");
+        startInfo.append("timeout is:").append(timeout).append("ms").append("\n");
+        startInfo.append("the benchmark start at:").append(dateFormat.format(currentDate)).append("\n");
+        startInfo.append("the benchmark will end at:").append(dateFormat.format(calendar.getTime()));
 
         System.out.println(startInfo.toString());
     }
@@ -287,9 +288,13 @@ public abstract class AbstractBenchmarkClient {
             String threads = cmd.getOptionValue("c");
             String connections = cmd.getOptionValue("tc");
             String warmUp = cmd.getOptionValue("w");
-            if (timeout == null) { option.setTimeout(1000); }
-            if (threads == null) { option.setThreads(1); }
-            if (connections == null) {option.setConnections(1);}
+            if (timeout == null) { timeout = "1000"; }
+            if (threads == null) { threads = "1"; }
+            if (connections == null) { connections = "1"; }
+
+            option.setTimeout(Integer.parseInt(timeout));
+            option.setThreads(Integer.parseInt(threads));
+            option.setConnections(Integer.parseInt(connections));
 
             if (warmUp != null) {
                 option.setWarmUp(Integer.parseInt(warmUp));

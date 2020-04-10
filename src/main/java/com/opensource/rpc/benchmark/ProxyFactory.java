@@ -62,11 +62,24 @@ public class ProxyFactory<T> {
     @SuppressWarnings("unchecked")
     public T getReference(final Class<T> targetInterface) {
         String key = targetInterface.getName();
-        if (!services.containsKey(key)) {
-            T service = createClient(targetInterface, targetIP, targetPort, timeout, connections);
-            services.put(key, service);
+
+        T ref = (T) services.get(key);
+        if (ref != null) {
+            return ref;
         }
-        return (T) services.get(key);
+
+        synchronized (services) {
+
+            ref = (T) services.get(key);
+            if (ref != null) {
+                return ref;
+            }
+
+            ref = createClient(targetInterface, targetIP, targetPort, timeout, connections);
+            services.put(key, ref);
+
+            return ref;
+        }
     }
 
     protected T createClient(Class<T> targetInterface, String targetIP, int targetPort, int timeout, int connections) {

@@ -2,12 +2,19 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5[level] %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
         <Root level="error">
             <AppenderRef ref="Console"/>
         </Root>
+
+        <Logger additivity="false" name="com.alibaba.dubbo" level="WARN">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger additivity="false" name="org.apache.dubbo" level="WARN">
+            <AppenderRef ref="Console"/>
+        </Logger>
     </Loggers>
 </Configuration>
