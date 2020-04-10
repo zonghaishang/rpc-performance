@@ -206,7 +206,7 @@ public abstract class AbstractBenchmarkClient {
         }
 
         System.out.println("----------Benchmark Statistics--------------");
-        System.out.println(" Concurrents: " + threads);
+        System.out.println(" concurrents: " + threads);
         System.out.println(" connections: " + connections);
         System.out.println(" Running: " + runtimeSeconds + " seconds");
         System.out.println(" Benchmark Time: " + times.keySet().size());
@@ -305,7 +305,7 @@ public abstract class AbstractBenchmarkClient {
 
     private void printUsage(Options options, HelpFormatter formatter) {
         // print help usage:
-        formatter.printHelp("benchmark.sh", options);
+        formatter.printHelp("benchmark.sh [options]", options);
         System.exit(0);
     }
 
