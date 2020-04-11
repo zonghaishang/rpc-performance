@@ -245,7 +245,7 @@ public abstract class AbstractBenchmarkClient {
         startInfo.append("server is: ").append(serverIP).append(":").append(serverPort).append("\n");
         startInfo.append("concurrent is: ").append(threads).append("\n");
         startInfo.append("connection is: ").append(clientNums).append("\n");
-        startInfo.append("timeout is:").append(timeout).append("ms").append("\n");
+        startInfo.append("timeout is: ").append(timeout).append("ms").append("\n");
         startInfo.append("the benchmark start at:").append(dateFormat.format(currentDate)).append("\n");
         startInfo.append("the benchmark will end at:").append(dateFormat.format(calendar.getTime()));
 

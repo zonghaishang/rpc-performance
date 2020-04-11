@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yiji
@@ -150,26 +151,36 @@ public abstract class AbstractClientRunnable implements ClientRunnable {
     }
 
     private void sumResponseTimeSpread(long responseTime) {
-        responseTime = responseTime / 1000L;
-        if (responseTime <= 0) {
+        // 更精确统计落在时间range计数
+        double rt = responseTime;
+
+        if (rt <= 0) {
             responseSpreads[0] = responseSpreads[0] + 1;
-        } else if (responseTime > 0 && responseTime <= 1) {
+        } else if (rt <= T_1_MICROS) {
             responseSpreads[1] = responseSpreads[1] + 1;
-        } else if (responseTime > 1 && responseTime <= 5) {
+        } else if (rt <= T_5_MICROS) {
             responseSpreads[2] = responseSpreads[2] + 1;
-        } else if (responseTime > 5 && responseTime <= 10) {
+        } else if (rt <= T_10_MICROS) {
             responseSpreads[3] = responseSpreads[3] + 1;
-        } else if (responseTime > 10 && responseTime <= 50) {
+        } else if (rt <= T_50_MICROS) {
             responseSpreads[4] = responseSpreads[4] + 1;
-        } else if (responseTime > 50 && responseTime <= 100) {
+        } else if (rt <= T_100_MICROS) {
             responseSpreads[5] = responseSpreads[5] + 1;
-        } else if (responseTime > 100 && responseTime <= 500) {
+        } else if (rt <= T_500_MICROS) {
             responseSpreads[6] = responseSpreads[6] + 1;
-        } else if (responseTime > 500 && responseTime <= 1000) {
+        } else if (rt <= T_1000_MICROS) {
             responseSpreads[7] = responseSpreads[7] + 1;
-        } else if (responseTime > 1000) {
+        } else {
             responseSpreads[8] = responseSpreads[8] + 1;
         }
     }
+
+    private static final long T_1_MICROS    = TimeUnit.MILLISECONDS.toMicros(1);
+    private static final long T_5_MICROS    = TimeUnit.MILLISECONDS.toMicros(5);
+    private static final long T_10_MICROS   = TimeUnit.MILLISECONDS.toMicros(10);
+    private static final long T_50_MICROS   = TimeUnit.MILLISECONDS.toMicros(50);
+    private static final long T_100_MICROS  = TimeUnit.MILLISECONDS.toMicros(100);
+    private static final long T_500_MICROS  = TimeUnit.MILLISECONDS.toMicros(500);
+    private static final long T_1000_MICROS = TimeUnit.MILLISECONDS.toMicros(1000);
 
 }
