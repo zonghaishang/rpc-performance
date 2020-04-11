@@ -29,23 +29,23 @@ usage: benchmark.sh [options]
 
 压测执行完后，输出：
 
-```
+```shell
 ----------Benchmark Statistics--------------
  concurrents: 1
  connections: 1
- Running: 300 seconds
- Benchmark Time: 261
- Requests: 1645754 Success: 100% (1645754) Error: 0% (0)
- Avg TPS: 6086 Max TPS: 7481 Min TPS: 3383
- Avg RT: 0.164ms
- RT <= 0: 99% 1644860/1645754
- RT (0,1]: 0% 384/1645754
- RT (1,5]: 0% 503/1645754
- RT (5,10]: 0% 3/1645754
- RT (10,50]: 0% 3/1645754
- RT (50,100]: 0% 0/1645754
- RT (100,500]: 0% 1/1645754
- RT (500,1000]: 0% 0/1645754
- RT > 1000: 0% 0/1645754
+ Running: 300s
+ Benchmark Time: 261s
+ Requests: 1365162 Success: 100% (1365162) Error: 0% (0)
+ Avg TPS: 5052 Max TPS: 5734 Min TPS: 2172
+ Avg RT: 0.197ms
+ RT <= 0: 0% 0/1365162
+ RT (0,1]: 99% 1362740/1365162
+ RT (1,5]: 0% 2351/1365162
+ RT (5,10]: 0% 49/1365162
+ RT (10,50]: 0% 17/1365162
+ RT (50,100]: 0% 2/1365162
+ RT (100,500]: 0% 3/1365162
+ RT (500,1000]: 0% 0/1365162
+ RT > 1000: 0% 0/1365162
 ```
 
