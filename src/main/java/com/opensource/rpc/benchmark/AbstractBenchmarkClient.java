@@ -208,7 +208,7 @@ public abstract class AbstractBenchmarkClient {
         System.out.println("----------Benchmark Statistics--------------");
         System.out.println(
                 " Running: " + runtimeSeconds + "s"
-                        + (option.getWarmUp() > 0 ? "and warm up for " + option.getWarmUp() + "s" : "")
+                        + (option.getWarmUp() > 0 ? " and warm up for " + option.getWarmUp() + "s" : "")
                         + " test @ " + option.getTargetInterface());
 
         System.out.println(" " + threads + " threads and " + connections + " connections");
