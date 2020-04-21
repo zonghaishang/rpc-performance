@@ -206,10 +206,12 @@ public abstract class AbstractBenchmarkClient {
         }
 
         System.out.println("----------Benchmark Statistics--------------");
-        System.out.println(" concurrents: " + threads);
-        System.out.println(" connections: " + connections);
-        System.out.println(" Running: " + runtimeSeconds + "s");
-        System.out.println(" Benchmark Time: " + times.keySet().size() + "s");
+        System.out.println(
+                " Running: " + runtimeSeconds + "s"
+                        + (option.getWarmUp() > 0 ? "and warm up for " + option.getWarmUp() + "s" : "")
+                        + " test @ " + option.getTargetInterface());
+
+        System.out.println(" " + threads + " threads and " + connections + " connections");
         long benchmarkRequest = allRequestSum + allErrorRequestSum;
         long allRequest = benchmarkRequest + ignoreRequest + ignoreErrorRequest;
         System.out.println(" Requests: " + allRequest + " Success: " + (allRequestSum + ignoreRequest) * 100

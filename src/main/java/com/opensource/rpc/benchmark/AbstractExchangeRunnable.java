@@ -6,6 +6,9 @@
 package com.opensource.rpc.benchmark;
 
 /**
+ *
+ * only for dubbo rpc benchmark
+ *
  * @author yiji
  * @version : AbstractExchangeClientRunnable.java, v 0.1 2020年04月09日 7:25 下午 yiji Exp $
  */
