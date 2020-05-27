@@ -4,7 +4,7 @@
 git clone https://github.com/zonghaishang/rpc-performance-test.git
 ```
 
-按照压测模板工程指引，开发待压测的接口。
+按照[压测模板工程指引](https://github.com/zonghaishang/rpc-performance-test.git)，开发待压测的接口。
 
 二、执行压测
 
